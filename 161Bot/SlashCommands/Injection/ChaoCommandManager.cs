@@ -69,7 +69,7 @@ namespace _161Bot.SlashCommands.Injection
                 
                 foreach (var param in method.GetParameters())
                 {
-                    if(param.GetCustomAttributes().Count() == 1)
+                    if(param.GetCustomAttributes().Count() >= 1)
                     {
                         var optionBuilder = new SlashCommandOptionBuilder();
                         optionBuilder.WithType(TranslateType(param.ParameterType));
@@ -77,6 +77,21 @@ namespace _161Bot.SlashCommands.Injection
                         optionBuilder.Required = optionAttribute.Required;
                         optionBuilder.WithName(optionAttribute.Name);
                         optionBuilder.WithDescription(optionAttribute.Description);
+                        if(param.GetCustomAttributes().Where(a => a is ChaoMultipleChoiceAttribute).Count() == 1)
+                        {
+                            var attribute = param.GetCustomAttributes().Where(a => a is ChaoMultipleChoiceAttribute).FirstOrDefault() as ChaoMultipleChoiceAttribute;
+                            string[] options = attribute.Choices;
+                            foreach(string option in options)
+                            {
+                                var splitString = option.Split("=");
+                                if (splitString.Count() == 2)
+                                {
+                                    optionBuilder.AddChoice(splitString[0], splitString[1]);
+                                }
+                                
+                            }
+
+                        }
                         builder.AddOption(optionBuilder);
                     }
                 }
