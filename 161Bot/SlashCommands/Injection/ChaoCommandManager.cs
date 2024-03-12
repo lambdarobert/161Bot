@@ -84,6 +84,7 @@ namespace _161Bot.SlashCommands.Injection
                 {
                     builder.WithDefaultPermission(false);
                 }
+                Console.WriteLine("adding guild command " + builder.Name);
                 var slashCmd = await cli.Rest.CreateGuildCommand(builder.Build(), BotConfig.GetCachedConfig().ServerGuild);
                 if(perms.Count() == 1)
                 {
