@@ -61,10 +61,7 @@ namespace _161Bot
 
         public async Task RunBotAsync()
         {
-            _client = new DiscordSocketClient(new DiscordSocketConfig()
-            {
-                AlwaysAcknowledgeInteractions = false
-            });
+            _client = new DiscordSocketClient(new DiscordSocketConfig());
             _commands = new CommandService();
 
             _services = new ServiceCollection()
@@ -101,6 +98,7 @@ namespace _161Bot
             _client.ChannelUpdated += new VCChannelManager().OnChannelModified;
             _client.InteractionCreated += HandleInteractions;
             _client.InteractionCreated += Quote.OnInteraction;
+            _client.InteractionCreated += Paginator.OnInteract;
             _client.InteractionCreated += async (inter) =>
             {
                 try
@@ -199,29 +197,8 @@ namespace _161Bot
             {
                 return;
             }
-            var context = new SocketCommandContext(_client, message);
             if (message.Author.IsBot) return;
-            int argPos = 0;
-            /*
-                         if (message.Content.ToLower().Contains(" chat") || message.Content.ToLower().Contains("chat "))
-            {
-                await message.Channel.SendMessageAsync("NO CHAT");
-            }   
-             */
-            if (message.HasStringPrefix("::", ref argPos))
-            {
-                if (!(message.Channel is IGuildChannel))
-                {
-                    await message.Channel.SendMessageAsync(embed: QuickEmbeds.Error("For privacy reasons, this command does not work in this context."));
-                    return;
-                }
-                var result = await _commands.ExecuteAsync(context, argPos, _services);
-                if (!result.IsSuccess)
-                {
-                    Console.WriteLine(result.ErrorReason);
 
-                }
-            }
             if (message.ToString().ToLower().Contains("chao"))
             {
                 await message.AddReactionAsync(new Emoji("🙏"));

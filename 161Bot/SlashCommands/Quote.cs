@@ -18,7 +18,7 @@ namespace _161Bot.SlashCommands
 
         public static ulong? lastMessage = null;
         private static readonly ulong guildId = 795714783801245706;
-        private static List<RestMessage> messages;
+        public static List<RestMessage> messages;
         private static readonly string interaction_id = "QUOTE_ROTATE";
 
 
@@ -73,7 +73,7 @@ namespace _161Bot.SlashCommands
             theEmbed.WithColor(Color.DarkPurple);
             foreach (var a in message.Attachments)
             {
-                theEmbed.ThumbnailUrl = a.ProxyUrl;
+                theEmbed.ImageUrl = a.ProxyUrl;
             }
             lastMessage = message.Id;
             return theEmbed.Build();
