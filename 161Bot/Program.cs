@@ -1,5 +1,6 @@
 ﻿using _161Bot.Modules;
 using _161Bot.Polls;
+using _161Bot.SlashCommands.Injection;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
@@ -47,9 +48,10 @@ namespace _161Bot
             new Program().RunBotAsync().GetAwaiter().GetResult();
         }
 
-        private static DiscordSocketClient _client;
+        public static DiscordSocketClient _client;
         private static CommandService _commands;
         private static IServiceProvider _services;
+        private static ChaoCommandManager _slash_commands = new ChaoCommandManager();
 
         public static IServiceProvider GetServices()
         {
@@ -95,6 +97,7 @@ namespace _161Bot
 
         public async Task RegisterCommandsAsync()
         {
+
             _client.MessageReceived += HandleCommandsAysnc;
             _client.UserVoiceStateUpdated += new VCHandler().HandleVC;
             _client.UserVoiceStateUpdated += new VCChannelManager().OnChannelJoinLeave;
@@ -102,9 +105,30 @@ namespace _161Bot
             _client.ChannelUpdated += new VCChannelManager().OnChannelModified;
             _client.MessageReceived += new Greentext().OnMessage;
             _client.InteractionCreated += HandleInteractions;
-           
+            _client.InteractionCreated += async (inter) =>
+            {
+                try
+                {
+                    await _slash_commands.Run(inter);
+                }
+                catch(Exception ex)
+                {
+                    Console.WriteLine(ex.ToString());
+                }
+            };
+
+
             _client.Ready += async delegate
             {
+                try
+                {
+                    await _slash_commands.Setup(_client);
+                }
+                catch(Exception ex)
+                {
+                    Console.WriteLine(ex.ToString());
+                    Console.WriteLine(ex.StackTrace);
+                }
                 await (_client.GetChannel(831964996287332352) as IMessageChannel).SendMessageAsync("Started.");
                 await Task.Run(async delegate
                 {
