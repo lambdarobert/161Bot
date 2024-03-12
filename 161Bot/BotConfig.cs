@@ -13,8 +13,20 @@ namespace _161Bot
         public ulong RoleId { get; set; }
     }
 
+    public class Stats
+    {
+        public ulong Cringe { get; set; }
+
+        public ulong Based { get; set; }
+
+        public ulong Gifs { get; set; }
+    }
+
     public class BotConfig
     {
+
+        public Dictionary<ulong, Stats> UserStats { get; set; }
+
         public string CurrentTerm { get; set; }
 
         public ulong CurrentTermEnds { get; set; }

@@ -92,6 +92,7 @@ namespace _161Bot
         {
 
             _client.MessageReceived += HandleCommandsAysnc;
+            _client.MessageReceived += new StatsDataUpdater().Handle;
             _client.UserVoiceStateUpdated += new VCHandler().HandleVC;
             _client.UserVoiceStateUpdated += new VCChannelManager().OnChannelJoinLeave;
             _client.ChannelDestroyed += new VCChannelManager().OnVoiceChannelDestroyed;
