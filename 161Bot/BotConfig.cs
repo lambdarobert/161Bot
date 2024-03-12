@@ -16,6 +16,8 @@ namespace _161Bot
     {
         public string PraiseCount { get; set; }
         public string DiscordToken { get; set; }
+
+        public ulong ServerGuild { get; set; }
         public string BotPrefix { get; set; }
 
         public string RandomDogUrl { get; set; }

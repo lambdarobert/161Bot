@@ -27,6 +27,7 @@ namespace _161Bot
                 template.PraiseCount = "0";
                 template.RandomDogUrl = "https://example.com";
                 template.ChaoPrayThumbnail = "https://example.com";
+                template.ServerGuild = 1234;
                 template.BabyYodaUrls = new List<string>()
                 {
                     "https://example.com/url1",
@@ -95,6 +96,11 @@ namespace _161Bot
             int argPos = 0;
             if (message.HasStringPrefix("!", ref argPos))
             {
+                if (!(message.Channel is IGuildChannel))
+                {
+                    await message.Channel.SendMessageAsync(embed: QuickEmbeds.Error("For privacy reasons, this command does not work in this context."));
+                    return;
+                }
                 var result = await _commands.ExecuteAsync(context, argPos, _services);
                 if (!result.IsSuccess)
                 {
