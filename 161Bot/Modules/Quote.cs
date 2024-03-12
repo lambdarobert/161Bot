@@ -14,7 +14,7 @@ namespace _161Bot.Modules
 
         public static ulong? lastMessage = null;
         private static readonly ulong guildId = 795714783801245706;
-        private static List<RestMessage> messages = new List<RestMessage>();
+        private static List<RestMessage> messages;
 
 
         // this command can take some time, so it's run here instead
@@ -22,6 +22,7 @@ namespace _161Bot.Modules
         public static async Task GenerateQuotes(DiscordSocketClient client)
         {
             Console.WriteLine("updating quote cache");
+            messages = new List<RestMessage>();
             var guild = client.GetGuild(guildId);
             foreach(var channel in guild.TextChannels)
             {

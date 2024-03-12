@@ -95,15 +95,81 @@ namespace _161Bot
             _client.UserVoiceStateUpdated += new VCChannelManager().OnChannelJoinLeave;
             _client.ChannelDestroyed += new VCChannelManager().OnVoiceChannelDestroyed;
             _client.ChannelUpdated += new VCChannelManager().OnChannelModified;
+            _client.MessageReceived += new Greentext().OnMessage;
+            _client.InteractionCreated += HandleInteractions;
+  
             _client.Ready += async delegate
             {
+                await (_client.GetChannel(831964996287332352) as IMessageChannel).SendMessageAsync("Started.");
                 await Task.Run(async delegate
                 {
                     await Quote.GenerateQuotes(_client);
                 });
+
+              
             };
 
             await _commands.AddModulesAsync(Assembly.GetEntryAssembly(), _services);
+        }
+
+        private async Task HandleInteractions(SocketInteraction inter)
+        {
+            if(inter is SocketMessageComponent smc)
+            {
+                if (smc.Data.CustomId.StartsWith("BR_"))
+                {
+                    var role = Convert.ToUInt64(smc.Data.CustomId.Replace("BR_", ""));
+                    var usr = (SocketGuildUser)smc.User;
+                    var guild = usr.Guild;
+
+                    bool hasRole = false;
+                    foreach (SocketRole r in usr.Roles)
+                    {
+                        if (r.Id == Convert.ToUInt64(role))
+                        {
+                            hasRole = true;
+                            break;
+                        }
+                    }
+
+                    if (guild.GetRole(role) != null)
+                    {
+                        var guildRole = guild.GetRole(role);
+                        if (guildRole.Permissions.Has(GuildPermission.Administrator) || guildRole.Permissions.Has(GuildPermission.ManageGuild) || guildRole.Permissions.Has(GuildPermission.ManageRoles) || guildRole.Permissions.Has(GuildPermission.BanMembers) || guildRole.Permissions.Has(GuildPermission.KickMembers))
+                        {
+                            await inter.RespondAsync(embed: QuickEmbeds.Error("Sorry, this role cannot be granted."), ephemeral: true);
+                        }
+                        else
+                        {
+                            if (hasRole)
+                            {
+                                await usr.RemoveRoleAsync(guildRole);
+                                var embed = new EmbedBuilder();
+                                embed.WithTitle("Role Removed");
+                                embed.WithDescription("The role '" + guildRole.Name + "' has been removed!");
+                                embed.WithColor(Color.Red);
+                                await inter.RespondAsync(embed: embed.Build(), ephemeral: true);
+                            }
+                            else
+                            {
+                                await usr.AddRoleAsync(guildRole);
+                                var embed = new EmbedBuilder();
+                                embed.WithTitle("Role Added");
+                                embed.WithDescription("The role '" + guildRole.Name + "' has been added!");
+                                embed.WithColor(Color.Green);
+                                await inter.RespondAsync(embed: embed.Build(), ephemeral: true);
+                            }
+                        }
+
+
+                    }
+                    else
+                    {
+                        await inter.RespondAsync(embed: QuickEmbeds.Error("This role does not exist anymore."), ephemeral: true);
+                    }
+                }
+            }
+                
         }
 
         private async Task HandleCommandsAysnc(SocketMessage arg)
