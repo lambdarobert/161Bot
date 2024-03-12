@@ -53,7 +53,7 @@ namespace _161Bot.Modules
                 theEmbed.ThumbnailUrl = a.ProxyUrl;
             }
             lastMessage = message.Id;
-            await ReplyAsync(embed: theEmbed.Build());
+            await ReplyAsync(messageReference: new MessageReference(Context.Message.Id), embed: theEmbed.Build());
         }
     }
 }

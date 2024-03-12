@@ -19,7 +19,7 @@ namespace _161Bot.Modules
             }
             else
             {
-                await ReplyAsync(embed: QuickEmbeds.Error("Not a valid emote ID. Use !wtfemojis to see the list of valids."));
+                await ReplyAsync(messageReference: new MessageReference(Context.Message.Id), embed: QuickEmbeds.Error("Not a valid emote ID. Use !wtfemojis to see the list of valids."));
                 return;
             }
         }

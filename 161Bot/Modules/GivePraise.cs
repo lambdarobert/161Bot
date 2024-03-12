@@ -19,7 +19,7 @@ namespace _161Bot.Modules
             theEmbed.WithDescription("You gave praise to Chao Chen.");
             theEmbed.WithFooter("Praise Count: " + BotConfig.GetCachedConfig().PraiseCount + "");
             theEmbed.WithCurrentTimestamp();
-            await ReplyAsync(embed: theEmbed.Build());
+            await ReplyAsync(messageReference: new MessageReference(Context.Message.Id), embed: theEmbed.Build());
             BotConfig cfg = BotConfig.LoadConfig();
             cfg.PraiseCount = (Int64.Parse(cfg.PraiseCount) + 1).ToString();
             BotConfig.SaveConfig(cfg);

@@ -18,8 +18,8 @@ namespace _161Bot
                 var guild = newState.VoiceChannel.Guild;
                 await guild.GetUser(user.Id).AddRoleAsync(guild.GetRole(BotConfig.GetCachedConfig().VcConfig.RoleId));
 
-                Console.WriteLine(antiSpam - DateTimeOffset.UtcNow.ToUnixTimeSeconds() + 30);
-                if (DateTimeOffset.UtcNow.ToUnixTimeSeconds() < antiSpam + 30)
+                Console.WriteLine(antiSpam - DateTimeOffset.UtcNow.ToUnixTimeSeconds() + 1800);
+                if (DateTimeOffset.UtcNow.ToUnixTimeSeconds() < antiSpam + 1800)
                 {
                     Console.WriteLine("anti spam worked, recorded time is " + antiSpam + " and the time now is " + DateTimeOffset.UtcNow.ToUnixTimeSeconds());
                     return;

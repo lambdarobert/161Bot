@@ -3,6 +3,7 @@ using Discord.Commands;
 using Discord.WebSocket;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -24,6 +25,14 @@ namespace _161Bot
                 template.BotPrefix = "!";
                 template.DiscordToken = "1234";
                 template.PraiseCount = "0";
+                template.RandomDogUrl = "https://example.com";
+                template.ChaoPrayThumbnail = "https://example.com";
+                template.BabyYodaUrls = new List<string>()
+                {
+                    "https://example.com/url1",
+                    "https://example.com/url2",
+                    "https://example.com/url3"
+                };
                 VCHandlerConfig vcConfig = new VCHandlerConfig();
                 vcConfig.ChannelId = 1234;
                 vcConfig.RoleId = 1234;

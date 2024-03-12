@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
 
@@ -16,6 +17,11 @@ namespace _161Bot
         public string PraiseCount { get; set; }
         public string DiscordToken { get; set; }
         public string BotPrefix { get; set; }
+
+        public string RandomDogUrl { get; set; }
+        public string ChaoPrayThumbnail { get; set; }
+
+        public IList<string> BabyYodaUrls { get; set; }
         public VCHandlerConfig VcConfig { get; set; }
 
         private static BotConfig? configCache;

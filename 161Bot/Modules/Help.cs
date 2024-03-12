@@ -18,7 +18,7 @@ namespace _161Bot.Commands
             {
                 helpMessage.Append("**").Append(cmd.Name).Append("**").Append(": ").Append(cmd.Summary == null ? "No description exists at this time." : cmd.Summary).Append("\n");
             }
-            await ReplyAsync(embed : new EmbedBuilder().WithTitle("Commands").WithDescription(helpMessage.ToString()).Build());
+            await ReplyAsync(messageReference: new MessageReference(Context.Message.Id), embed : new EmbedBuilder().WithTitle("Commands").WithDescription(helpMessage.ToString()).Build());
         }
     }
 }

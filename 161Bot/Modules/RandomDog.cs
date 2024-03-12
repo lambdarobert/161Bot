@@ -18,7 +18,7 @@ namespace _161Bot.Commands
         [Summary("See a random dog.")]
         public async Task Run()
         {
-            var response = await new ChaoWebRequest("https://dog.ceo/api/breeds/image/random").ToClassFromJSON<DogResponse>();
+            var response = await new ChaoWebRequest(BotConfig.GetCachedConfig().RandomDogUrl).ToClassFromJSON<DogResponse>();
             Console.WriteLine("Var is " + response.IsSuccess);
             if(response.IsSuccess)
             {
@@ -29,17 +29,17 @@ namespace _161Bot.Commands
                     embed.WithTitle("Random Dog");
                     embed.WithColor(Color.Gold);
                     embed.WithImageUrl(dogObject.message);
-                    await ReplyAsync(embed: embed.Build());
+                    await ReplyAsync(messageReference: new MessageReference(Context.Message.Id), embed: embed.Build());
                 }
                 else
                 {
-                    await ReplyAsync("Could not find a dog.");
+                    await ReplyAsync(messageReference: new MessageReference(Context.Message.Id), message: "Could not find a dog.");
                     return;
                 }
             }
             else
             {
-                await ReplyAsync("Failed to make web request.");
+                await ReplyAsync(messageReference: new MessageReference(Context.Message.Id), message: "Failed to make web request.");
                 return;
             }
         }

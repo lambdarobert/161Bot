@@ -1,4 +1,5 @@
-﻿using Discord.Commands;
+﻿using Discord;
+using Discord.Commands;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -16,7 +17,7 @@ namespace _161Bot.Modules
             {
                 sb.Append(emote.Name + " with ID " + emote.Id + "\n");
             }
-            await ReplyAsync(sb.ToString());
+            await ReplyAsync(messageReference: new MessageReference(Context.Message.Id), message: sb.ToString());
         }
     }
 }

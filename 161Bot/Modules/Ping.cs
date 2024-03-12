@@ -1,4 +1,5 @@
-﻿using Discord.Commands;
+﻿using Discord;
+using Discord.Commands;
 using System.Threading.Tasks;
 
 namespace _161Bot.Commands
@@ -9,7 +10,7 @@ namespace _161Bot.Commands
         [Summary("Outputs 'pong'.")]
         public async Task Run()
         {
-            await ReplyAsync("Pong!");
+            await ReplyAsync(messageReference: new MessageReference(Context.Message.Id), message: "Pong!");
 
         }
     }

@@ -16,7 +16,7 @@ namespace _161Bot.Modules
             DateTime d1 = new DateTime(year: 2021, month: 3, day: 19, hour: 23, minute: 59, second: 59, millisecond: 0, kind: DateTimeKind.Local);
             DateTime d2 = DateTime.Now;
             TimeSpan diff = d1 - d2;
-            await ReplyAsync(embed: new EmbedBuilder().WithTitle("Days Until End of Winter Term").WithDescription(
+            await ReplyAsync(messageReference: new MessageReference(Context.Message.Id), embed: new EmbedBuilder().WithTitle("Days Until End of Winter Term").WithDescription(
                 "Days: " + diff.Days.ToString() + "\n" +
                 "+ Hours: " + diff.Hours.ToString() + "\n" +
                 "+ Minutes: " + diff.Minutes.ToString() + "\n" +
