@@ -20,7 +20,7 @@ namespace _161Bot
             }
             catch (Exception)
             {
-                Console.WriteLine("Welcome to ChaoBot. It seems you don't have a configuration file yet. I will write a template in config.yml. Please edit it to your liking.");
+                Console.WriteLine("Welcome to CHAOBOT. It seems you don't have a configuration file yet. I will write a template in config.yml. Please edit it to your liking.");
                 BotConfig template = new BotConfig();
                 template.BotPrefix = "!";
                 template.DiscordToken = "1234";
@@ -85,6 +85,9 @@ namespace _161Bot
         {
             _client.MessageReceived += HandleCommandsAysnc;
             _client.UserVoiceStateUpdated += new VCHandler().HandleVC;
+            _client.UserVoiceStateUpdated += new VCChannelManager().OnChannelJoinLeave;
+            _client.ChannelDestroyed += new VCChannelManager().OnVoiceChannelDestroyed;
+            _client.ChannelUpdated += new VCChannelManager().OnChannelModified;
 
             await _commands.AddModulesAsync(Assembly.GetEntryAssembly(), _services);
         }
