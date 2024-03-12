@@ -15,6 +15,10 @@ namespace _161Bot
 
     public class BotConfig
     {
+        public string CurrentTerm { get; set; }
+
+        public ulong CurrentTermEnds { get; set; }
+
         public string PraiseCount { get; set; }
         public string DiscordToken { get; set; }
 

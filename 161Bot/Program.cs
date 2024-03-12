@@ -116,6 +116,19 @@ namespace _161Bot
             _client.Ready += async delegate
             {
                 Console.WriteLine("running ready");
+
+                /*
+                var chan = _client.GetChannel(795714783801245709) as IMessageChannel;
+                var embed = new EmbedBuilder();
+                embed.WithTitle("K747 Survivors Rules");
+                string rulesDesc = File.ReadAllText("rules.txt");
+                embed.WithDescription(rulesDesc);
+                embed.WithColor(Color.Blue);
+                embed.WithFooter("If you see something being broken, please talk to a mod about it. Don't publicly accuse people in the chats.");
+
+                await chan.SendMessageAsync(embed: embed.Build());
+                */
+
                 Task.Run(async delegate
                 {
                     await Quote.GenerateQuotes(_client);

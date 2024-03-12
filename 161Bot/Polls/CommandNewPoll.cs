@@ -52,7 +52,7 @@ namespace _161Bot.Polls
                 {
                     selectOptions.Add(new SelectMenuOptionBuilder().WithValue(i.ToString()).WithLabel(p.OptionData[i]));
                 }
-                comp.WithSelectMenu("Select option", PollManager.Instance._id_prefix + p.Id, selectOptions, minValues: p.MinOptions, maxValues: p.MaxOptions);
+                comp.WithSelectMenu(PollManager.Instance._id_prefix + p.Id, selectOptions, "Select option", minValues: p.MinOptions, maxValues: p.MaxOptions);
 
                 comp.WithButton("View Results", PollManager.Instance._id_poll_results_ddm, ButtonStyle.Primary, new Emoji("✅"));
                 comp.WithButton("Poll Options", PollManager.Instance._id_poll_options_ddm_option, ButtonStyle.Secondary, new Emoji("⚙️"));
