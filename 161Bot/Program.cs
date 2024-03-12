@@ -94,6 +94,10 @@ namespace _161Bot
             var context = new SocketCommandContext(_client, message);
             if (message.Author.IsBot) return;
             int argPos = 0;
+            if (message.Content.ToLower().Contains(" chat") || message.Content.ToLower().Contains("chat "))
+            {
+                await message.Channel.SendMessageAsync("NO CHAT");
+            }
             if (message.HasStringPrefix("!", ref argPos))
             {
                 if (!(message.Channel is IGuildChannel))
