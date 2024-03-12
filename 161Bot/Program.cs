@@ -1,4 +1,5 @@
 ﻿using _161Bot.Modules;
+using _161Bot.Polls;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
@@ -57,7 +58,10 @@ namespace _161Bot
 
         public async Task RunBotAsync()
         {
-            _client = new DiscordSocketClient();
+            _client = new DiscordSocketClient(new DiscordSocketConfig()
+            {
+                AlwaysAcknowledgeInteractions = false
+            });
             _commands = new CommandService();
 
             _services = new ServiceCollection()
@@ -72,6 +76,7 @@ namespace _161Bot
             await _client.LoginAsync(TokenType.Bot, botToken);
             await _client.StartAsync();
             await _client.SetGameAsync("::cmds for commands!");
+            
             await Task.Run(async delegate
             {
                 await Task.Delay(60000);
@@ -97,7 +102,7 @@ namespace _161Bot
             _client.ChannelUpdated += new VCChannelManager().OnChannelModified;
             _client.MessageReceived += new Greentext().OnMessage;
             _client.InteractionCreated += HandleInteractions;
-  
+           
             _client.Ready += async delegate
             {
                 await (_client.GetChannel(831964996287332352) as IMessageChannel).SendMessageAsync("Started.");
@@ -105,8 +110,8 @@ namespace _161Bot
                 {
                     await Quote.GenerateQuotes(_client);
                 });
+                await PollManager.Instance.Setup(_client);
 
-              
             };
 
             await _commands.AddModulesAsync(Assembly.GetEntryAssembly(), _services);
@@ -114,7 +119,8 @@ namespace _161Bot
 
         private async Task HandleInteractions(SocketInteraction inter)
         {
-            if(inter is SocketMessageComponent smc)
+
+            if (inter is SocketMessageComponent smc)
             {
                 if (smc.Data.CustomId.StartsWith("BR_"))
                 {
@@ -175,6 +181,10 @@ namespace _161Bot
         private async Task HandleCommandsAysnc(SocketMessage arg)
         {
             var message = arg as SocketUserMessage;
+            if(arg == null || message == null)
+            {
+                return;
+            }
             var context = new SocketCommandContext(_client, message);
             if (message.Author.IsBot) return;
             int argPos = 0;

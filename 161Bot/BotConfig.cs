@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using _161Bot.Polls;
+using System.Collections.Generic;
 using System.IO;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
@@ -28,16 +29,18 @@ namespace _161Bot
         public IList<ulong> VCManagerMessagedUsers { get; set; }
         public VCHandlerConfig VcConfig { get; set; }
 
+        public List<Poll> Poll { get; set; }
+
         private static BotConfig? configCache;
 
         // so we don't have to load the config every time a value needs to be read from it
-        public static BotConfig GetCachedConfig()
+        public static  BotConfig GetCachedConfig()
         {
             if (configCache == null)
             {
                 LoadConfig();
             }
-            return configCache;
+            return  configCache;
         }
 
 
@@ -54,7 +57,7 @@ namespace _161Bot
             return p;
         }
 
-        public static void SaveConfig(BotConfig cfg)
+        public static void SaveConfig( BotConfig cfg)
         {
             var serializer = new SerializerBuilder()
                 .WithNamingConvention(CamelCaseNamingConvention.Instance)
