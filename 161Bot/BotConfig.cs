@@ -24,6 +24,8 @@ namespace _161Bot
         public string ChaoPrayThumbnail { get; set; }
 
         public IList<string> BabyYodaUrls { get; set; }
+
+        public IList<ulong> VCManagerMessagedUsers { get; set; }
         public VCHandlerConfig VcConfig { get; set; }
 
         private static BotConfig? configCache;

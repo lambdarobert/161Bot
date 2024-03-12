@@ -28,6 +28,7 @@ namespace _161Bot
                 template.RandomDogUrl = "https://example.com";
                 template.ChaoPrayThumbnail = "https://example.com";
                 template.ServerGuild = 1234;
+                template.VCManagerMessagedUsers = new List<ulong>() { 1234 };
                 template.BabyYodaUrls = new List<string>()
                 {
                     "https://example.com/url1",
