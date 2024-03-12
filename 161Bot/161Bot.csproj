@@ -17,4 +17,8 @@
     <PackageReference Include="YamlDotNet" Version="9.1.4" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Modules\" />
+  </ItemGroup>
+
 </Project>

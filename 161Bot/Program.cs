@@ -1,5 +1,6 @@
-﻿using _161Bot.Modules;
+﻿
 using _161Bot.Polls;
+using _161Bot.SlashCommands;
 using _161Bot.SlashCommands.Injection;
 using Discord;
 using Discord.Commands;
@@ -103,7 +104,6 @@ namespace _161Bot
             _client.UserVoiceStateUpdated += new VCChannelManager().OnChannelJoinLeave;
             _client.ChannelDestroyed += new VCChannelManager().OnVoiceChannelDestroyed;
             _client.ChannelUpdated += new VCChannelManager().OnChannelModified;
-            _client.MessageReceived += new Greentext().OnMessage;
             _client.InteractionCreated += HandleInteractions;
             _client.InteractionCreated += async (inter) =>
             {

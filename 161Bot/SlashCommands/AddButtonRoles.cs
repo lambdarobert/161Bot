@@ -1,21 +1,24 @@
-﻿using Discord;
+﻿using _161Bot.SlashCommands.Injection;
+using _161Bot.SlashCommands.Injection.Attributes;
+using Discord;
 using Discord.Commands;
+using Discord.WebSocket;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace _161Bot.Modules
+namespace _161Bot.SlashCommands
 {
-    public class AddButtonRoles : ModuleBase<SocketCommandContext>
+    [ChaoCommand("addbuttonroles", "Add button role selector for the channel")]
+    [ChaoPermissions(new ulong[] {}, 796444864177766400)]
+    public class AddButtonRoles : ChaoSlashCommand
     {
 
-        [Command("addbuttonroles")]
-        [Summary("Admin command")]
-        [RequireUserPermission(Discord.GuildPermission.Administrator)]
         //example syntax for payload: Role_1=1234,Role_2=4567
-        public async Task Run(string payload, [Remainder] string description)
+        public async Task Run(SocketSlashCommand cmd, [ChaoParameter("payload", "example syntax for payload: Role_1=1234=emoteid,Role_2=4567=emoteid")] string payload, [ChaoParameter("description", "Goes along with the message.")] string description)
         {
+            var guild = (cmd.Channel as SocketGuildChannel).Guild;
             var components = new Discord.ComponentBuilder();
             string[] roles = payload.Split(",");
             Console.WriteLine(payload);
@@ -23,7 +26,7 @@ namespace _161Bot.Modules
             {
                 if (role.Split("=").Length != 2 && role.Split("=").Length != 3)
                 {
-                    await Context.Channel.SendMessageAsync("Invalid role button, " + role + ".");
+                    await cmd.RespondAsync("Invalid role button, " + role + ".", ephemeral: true);
                     return;
                 }
                 string key = role.Split("=")[0].Replace("_", " ");
@@ -31,7 +34,7 @@ namespace _161Bot.Modules
                 if (role.Split("=").Length == 3)
                 {
                     Emote emotee = null;
-                    foreach(Emote e in Context.Guild.Emotes)
+                    foreach(Emote e in guild.Emotes)
                     {
                         if (e.Name == role.Split("=")[2]) {
                             emotee = e;
@@ -45,7 +48,8 @@ namespace _161Bot.Modules
                 }
             }
 
-            await Context.Channel.SendMessageAsync(description, component: components.Build());
+            await cmd.Channel.SendMessageAsync(description, component: components.Build());
+            await cmd.RespondAsync("Posted!", ephemeral: true);
         }
     }
 }

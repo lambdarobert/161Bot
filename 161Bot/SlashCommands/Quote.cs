@@ -1,4 +1,6 @@
-﻿using Discord;
+﻿using _161Bot.SlashCommands.Injection;
+using _161Bot.SlashCommands.Injection.Attributes;
+using Discord;
 using Discord.Commands;
 using Discord.Rest;
 using Discord.WebSocket;
@@ -7,9 +9,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace _161Bot.Modules
+namespace _161Bot.SlashCommands
 {
-    public class Quote : ModuleBase<SocketCommandContext>
+
+    [ChaoCommand("quote", "Get a random quote from the server.")]
+    public class Quote : ChaoSlashCommand
     {
 
         public static ulong? lastMessage = null;
@@ -36,13 +40,11 @@ namespace _161Bot.Modules
             }
         }
 
-        [Command("quote", RunMode = RunMode.Async)]
-        [Summary("Get a random quote from the server.")]
-        public async Task Run()
+        public async Task Run(SocketSlashCommand cmd)
         {
             if(messages.Count == 0)
             {
-                await ReplyAsync(embed: QuickEmbeds.Error("This command is not ready yet. Please try again later."));
+                await cmd.RespondAsync(embed: QuickEmbeds.Error("This command is not ready yet. Please try again later."), ephemeral: true);
                 return;
             }
             Random r = new Random();
@@ -66,7 +68,7 @@ namespace _161Bot.Modules
             }
             lastMessage = message.Id;
  
-            await ReplyAsync(messageReference: new MessageReference(Context.Message.Id), embed: theEmbed.Build());
+            await cmd.RespondAsync(embed: theEmbed.Build());
         }
     }
 }

@@ -1,22 +1,25 @@
-﻿using Discord;
+﻿using _161Bot.SlashCommands;
+using _161Bot.SlashCommands.Injection;
+using _161Bot.SlashCommands.Injection.Attributes;
+using Discord;
 using Discord.Commands;
+using Discord.WebSocket;
 using System;
 using System.Threading.Tasks;
 
-namespace _161Bot.Commands
+
+namespace _161Bot.SlashCommands
 {
-    public class RandomDog : ModuleBase<SocketCommandContext>
+
+    [ChaoCommand("randomdog", "See a random dog.")]
+    public class RandomDog : ChaoSlashCommand
     {
         private class DogResponse
         {
             public string message { get; set; }
             public string status { get; set; }
         }
-
-        [Command("randomdog", RunMode = RunMode.Async)]
-        [Alias("randdog", "randomdoggo")]
-        [Summary("See a random dog.")]
-        public async Task Run()
+        public async Task Run(SocketSlashCommand cmd)
         {
             var response = await new ChaoWebRequest(BotConfig.GetCachedConfig().RandomDogUrl).ToClassFromJSON<DogResponse>();
             Console.WriteLine("Var is " + response.IsSuccess);
@@ -29,17 +32,17 @@ namespace _161Bot.Commands
                     embed.WithTitle("Random Dog");
                     embed.WithColor(Color.Gold);
                     embed.WithImageUrl(dogObject.message);
-                    await ReplyAsync(messageReference: new MessageReference(Context.Message.Id), embed: embed.Build());
+                    await cmd.RespondAsync(embed: embed.Build());
                 }
                 else
                 {
-                    await ReplyAsync(messageReference: new MessageReference(Context.Message.Id), message: "Could not find a dog.");
+                    await cmd.RespondAsync("Could not find a dog.", ephemeral: true);
                     return;
                 }
             }
             else
             {
-                await ReplyAsync(messageReference: new MessageReference(Context.Message.Id), message: "Failed to make web request.");
+                await cmd.RespondAsync("Failed to make web request.", ephemeral: true);
                 return;
             }
         }
