@@ -19,6 +19,7 @@ namespace _161Bot.Modules
         // this command can take some time, so it's run here instead
         private async Task RunAsync()
         {
+            var dis = Context.Channel.EnterTypingState();
             List<RestMessage> pins = new List<RestMessage>();
             foreach (var channel in Context.Guild.TextChannels)
             {
@@ -53,6 +54,7 @@ namespace _161Bot.Modules
                 theEmbed.ThumbnailUrl = a.ProxyUrl;
             }
             lastMessage = message.Id;
+            dis.Dispose();
             await ReplyAsync(messageReference: new MessageReference(Context.Message.Id), embed: theEmbed.Build());
         }
     }
