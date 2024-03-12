@@ -1,8 +1,6 @@
 ﻿using Discord;
 using Discord.Commands;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace _161Bot.Modules
@@ -11,6 +9,7 @@ namespace _161Bot.Modules
     public class GivePraise : ModuleBase<SocketCommandContext>
     {
         [Command("givepraise")]
+        [Summary("Add one praise to Chao Chen's praise count.")]
         public async Task Run()
         {
             var theEmbed = new Discord.EmbedBuilder();

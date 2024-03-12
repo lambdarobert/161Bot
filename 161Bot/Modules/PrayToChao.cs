@@ -1,7 +1,5 @@
 ﻿using Discord.Commands;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace _161Bot.Modules
@@ -9,6 +7,7 @@ namespace _161Bot.Modules
     public class PrayToChao : ModuleBase<SocketCommandContext>
     {
         [Command("pray")]
+        [Summary("Add five praise and do a prayer.")]
         public async Task Run()
         {
             var theEmbed = new Discord.EmbedBuilder();
@@ -18,7 +17,7 @@ namespace _161Bot.Modules
             theEmbed.WithThumbnailUrl("https://robertserver.s3-us-west-2.amazonaws.com/pray.jpg");
             theEmbed.WithFooter("Praise Count: " + BotConfig.GetCachedConfig().PraiseCount);
             theEmbed.WithCurrentTimestamp();
-            await ReplyAsync(embed : theEmbed.Build());
+            await ReplyAsync(embed: theEmbed.Build());
             BotConfig cfg = BotConfig.LoadConfig();
             Console.WriteLine("Praise count is " + cfg.PraiseCount);
             cfg.PraiseCount = (Int64.Parse(cfg.PraiseCount) + 5).ToString();

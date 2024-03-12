@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
-using YamlDotNet.RepresentationModel;
+﻿using System.IO;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
 
@@ -27,7 +23,7 @@ namespace _161Bot
         // so we don't have to load the config every time a value needs to be read from it
         public static BotConfig GetCachedConfig()
         {
-            if(configCache == null)
+            if (configCache == null)
             {
                 LoadConfig();
             }

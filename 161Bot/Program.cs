@@ -1,13 +1,11 @@
-﻿using System;
-using Discord;
+﻿using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
 using Microsoft.Extensions.DependencyInjection;
-
-using System.Threading.Tasks;
-using System.Collections.Generic;
-using System.Reflection;
+using System;
 using System.IO;
+using System.Reflection;
+using System.Threading.Tasks;
 
 namespace _161Bot
 {
@@ -36,9 +34,14 @@ namespace _161Bot
             new Program().RunBotAsync().GetAwaiter().GetResult();
         }
 
-        private DiscordSocketClient _client;
-        private CommandService _commands;
-        private IServiceProvider _services;
+        private static DiscordSocketClient _client;
+        private static CommandService _commands;
+        private static IServiceProvider _services;
+
+        public static IServiceProvider GetServices()
+        {
+            return _services;
+        }
 
         public async Task RunBotAsync()
         {
@@ -56,7 +59,7 @@ namespace _161Bot
             await RegisterCommandsAsync();
             await _client.LoginAsync(TokenType.Bot, botToken);
             await _client.StartAsync();
-            await _client.SetGameAsync("Written in C#!");
+            await _client.SetGameAsync("!chaocmds for commands!");
             await Task.Delay(-1);
 
 
@@ -81,20 +84,20 @@ namespace _161Bot
             var context = new SocketCommandContext(_client, message);
             if (message.Author.IsBot) return;
             int argPos = 0;
-            if(message.HasStringPrefix("!", ref argPos))
+            if (message.HasStringPrefix("!", ref argPos))
             {
                 var result = await _commands.ExecuteAsync(context, argPos, _services);
-                if(!result.IsSuccess)
+                if (!result.IsSuccess)
                 {
                     Console.WriteLine(result.ErrorReason);
 
                 }
             }
-            if(message.ToString().ToLower().Contains("chao"))
+            if (message.ToString().ToLower().Contains("chao"))
             {
                 await message.AddReactionAsync(new Emoji("🙏"));
             }
-            if(message.ToString().ToLower().Contains("kishore"))
+            if (message.ToString().ToLower().Contains("kishore"))
             {
                 await message.AddReactionAsync(Emote.Parse("<:747:805867124593393675>"));
             }
