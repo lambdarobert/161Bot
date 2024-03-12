@@ -24,5 +24,7 @@ namespace _161Bot.Modules
             Console.WriteLine("Praise count is " + cfg.PraiseCount);
             BotConfig.SaveConfig(cfg);
         }
+
+
     }
 }

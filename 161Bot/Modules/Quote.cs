@@ -14,7 +14,10 @@ namespace _161Bot.Modules
 
         [Command("quote", RunMode = RunMode.Async)]
         [Summary("Get a random quote from the server.")]
-        public async Task Run()
+        public async Task Run() => await Task.Run(RunAsync);
+
+        // this command can take some time, so it's run here instead
+        private async Task RunAsync()
         {
             List<RestMessage> pins = new List<RestMessage>();
             foreach (var channel in Context.Guild.TextChannels)
