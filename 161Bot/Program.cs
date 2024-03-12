@@ -199,13 +199,19 @@ namespace _161Bot
             }
             if (message.Author.IsBot) return;
 
+            /*
             if (message.ToString().ToLower().Contains("chao"))
             {
                 await message.AddReactionAsync(new Emoji("🙏"));
             }
+            */
             if (message.ToString().ToLower().Contains("kishore"))
             {
                 await message.AddReactionAsync(Emote.Parse("<:747:805867124593393675>"));
+            }
+            if(message.ToString().ToLower().Contains("memory leak"))
+            {
+                await message.Channel.SendMessageAsync("https://tenor.com/view/minion-memory-alert-gif-9313925", messageReference: new MessageReference(message.Id));
             }
             await new BotSpeakHandler().HandleMessage(arg);
 

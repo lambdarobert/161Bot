@@ -22,7 +22,7 @@ namespace _161Bot.SlashCommands
                     quotes.Add("Quote by: " + quote.Author.Mention + "\n\n" + quote.Content);
                 }
                 var embed = new EmbedBuilder().WithTitle("All Quotes").WithColor(Color.Blue).Build();
-                await Paginator.RespondWithPagination(cmd, embed, quotes.ToArray(), true);
+                await Paginator.RespondWithPagination(cmd, embed, quotes.ToArray(), false);
             }
             catch(Exception ex)
             {
