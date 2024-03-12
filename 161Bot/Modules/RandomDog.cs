@@ -14,6 +14,7 @@ namespace _161Bot.Commands
         }
 
         [Command("randomdog", RunMode = RunMode.Async)]
+        [Alias("randdog", "randomdoggo")]
         [Summary("See a random dog.")]
         public async Task Run()
         {

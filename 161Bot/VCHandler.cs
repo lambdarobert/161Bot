@@ -30,7 +30,7 @@ namespace _161Bot
                 embed.WithTitle("Voice Chat");
                 embed.WithDescription(user.Username + " joined a voice chat.");
                 embed.WithCurrentTimestamp();
-                await newState.VoiceChannel.Guild.GetTextChannel(BotConfig.GetCachedConfig().VcConfig.ChannelId).SendMessageAsync(embed: embed.Build());
+                await newState.VoiceChannel.Guild.GetTextChannel(BotConfig.GetCachedConfig().VcConfig.ChannelId).SendMessageAsync(embed: embed.Build(), text: (newState.VoiceChannel.Users.Count == 1 ? "@here" : ""));
                 // prevent spamming the bot
                 antiSpam = DateTimeOffset.UtcNow.ToUnixTimeSeconds(); // thanks stackoverflow
 

@@ -10,6 +10,7 @@ namespace _161Bot.Modules
     {
         [Command("givepraise")]
         [Summary("Add one praise to Chao Chen's praise count.")]
+        [Alias("addpraise", "praise")]
         public async Task Run()
         {
             var theEmbed = new Discord.EmbedBuilder();

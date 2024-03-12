@@ -7,6 +7,7 @@ namespace _161Bot.Modules
     public class PrayToChao : ModuleBase<SocketCommandContext>
     {
         [Command("pray")]
+        [Alias("praytochao", "prayer")]
         [Summary("Add five praise and do a prayer.")]
         public async Task Run()
         {

@@ -10,6 +10,7 @@ namespace _161Bot.Modules
     {
         [Command("daysremaining")]
         [Summary("Get the numbers of days remaining in this term.")]
+        [Alias("days", "getdays")]
         public async Task Run()
         {
             DateTime d1 = new DateTime(2021, 3, 19);
