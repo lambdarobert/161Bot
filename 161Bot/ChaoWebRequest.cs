@@ -56,7 +56,7 @@ namespace _161Bot
                 response.EnsureSuccessStatusCode();
                 string responseBody = await (response.Content.ReadAsStringAsync());
                 Console.WriteLine("IT WORKS");
-                return new JSONResponse<T>(true, await response.Content.ReadAsAsync<T>());
+                return new JSONResponse<T>(true,  await response.Content.ReadAsAsync<T>());
             }
             catch (HttpRequestException e)
             {
