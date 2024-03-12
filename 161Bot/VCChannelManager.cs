@@ -49,6 +49,12 @@ namespace _161Bot
                                 connect: PermValue.Allow,
                                 prioritySpeaker: PermValue.Allow
                                 ))); // owner permissions
+                            list.Add(new Overwrite(829525044539031592, PermissionTarget.Role, new OverwritePermissions(
+    speak: PermValue.Deny,
+    stream: PermValue.Deny
+
+
+    )));
                             list.Add(new Overwrite(modRole, PermissionTarget.Role, OverwritePermissions.AllowAll(channel)));
 
                             m.PermissionOverwrites = list;

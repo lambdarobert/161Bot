@@ -7,8 +7,8 @@ namespace _161Bot.Commands
 {
     public class Help : ModuleBase<SocketCommandContext>
     {
-        [Command("chaocmds")]
-        [Alias("chaohelp")]
+        [Command("cmds")]
+        [Alias("help")]
         [Summary("Shows the list of bot commands.")]
         public async Task Run()
         {

@@ -13,15 +13,15 @@ namespace _161Bot.Modules
         [Alias("days", "getdays")]
         public async Task Run()
         {
-            DateTime d1 = new DateTime(year: 2021, month: 3, day: 19, hour: 23, minute: 59, second: 59, millisecond: 0, kind: DateTimeKind.Local);
+            DateTime d1 = new DateTime(year: 2021, month: 6, day: 11, hour: 23, minute: 59, second: 59, millisecond: 0, kind: DateTimeKind.Local);
             DateTime d2 = DateTime.Now;
             TimeSpan diff = d1 - d2;
-            await ReplyAsync(messageReference: new MessageReference(Context.Message.Id), embed: new EmbedBuilder().WithTitle("Days Until End of Winter Term").WithDescription(
+            await ReplyAsync(messageReference: new MessageReference(Context.Message.Id), embed: new EmbedBuilder().WithTitle("Days Until End of Spring Term").WithDescription(
                 "Days: " + diff.Days.ToString() + "\n" +
                 "+ Hours: " + diff.Hours.ToString() + "\n" +
                 "+ Minutes: " + diff.Minutes.ToString() + "\n" +
                 "+ Seconds: " + diff.Seconds.ToString() + "\n"
-                ).WithColor(Color.Blue).WithFooter("Winter term ends at: " + d1.ToString() + " • Time on Server: " + d2.ToString()).Build());
+                ).WithColor(Color.Blue).WithFooter("Spring term ends at: " + d1.ToString() + " • Time on Server: " + d2.ToString()).Build());
         }
     }
 }

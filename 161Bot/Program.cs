@@ -1,4 +1,5 @@
-﻿using Discord;
+﻿using _161Bot.Modules;
+using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
 using Microsoft.Extensions.DependencyInjection;
@@ -70,7 +71,12 @@ namespace _161Bot
             await RegisterCommandsAsync();
             await _client.LoginAsync(TokenType.Bot, botToken);
             await _client.StartAsync();
-            await _client.SetGameAsync("!chaocmds for commands!");
+            await _client.SetGameAsync("::cmds for commands!");
+            await Task.Run(async delegate
+            {
+                await Task.Delay(60000);
+                await Quote.GenerateQuotes(_client);
+            });
             await Task.Delay(-1);
 
 
@@ -89,6 +95,13 @@ namespace _161Bot
             _client.UserVoiceStateUpdated += new VCChannelManager().OnChannelJoinLeave;
             _client.ChannelDestroyed += new VCChannelManager().OnVoiceChannelDestroyed;
             _client.ChannelUpdated += new VCChannelManager().OnChannelModified;
+            _client.Ready += async delegate
+            {
+                await Task.Run(async delegate
+                {
+                    await Quote.GenerateQuotes(_client);
+                });
+            };
 
             await _commands.AddModulesAsync(Assembly.GetEntryAssembly(), _services);
         }
@@ -99,11 +112,13 @@ namespace _161Bot
             var context = new SocketCommandContext(_client, message);
             if (message.Author.IsBot) return;
             int argPos = 0;
-            if (message.Content.ToLower().Contains(" chat") || message.Content.ToLower().Contains("chat "))
+            /*
+                         if (message.Content.ToLower().Contains(" chat") || message.Content.ToLower().Contains("chat "))
             {
                 await message.Channel.SendMessageAsync("NO CHAT");
-            }
-            if (message.HasStringPrefix("!", ref argPos))
+            }   
+             */
+            if (message.HasStringPrefix("::", ref argPos))
             {
                 if (!(message.Channel is IGuildChannel))
                 {

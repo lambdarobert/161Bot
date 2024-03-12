@@ -18,13 +18,8 @@ namespace _161Bot
                 var guild = newState.VoiceChannel.Guild;
                 await guild.GetUser(user.Id).AddRoleAsync(guild.GetRole(BotConfig.GetCachedConfig().VcConfig.RoleId));
 
-                Console.WriteLine(antiSpam - DateTimeOffset.UtcNow.ToUnixTimeSeconds() + 1800);
-                if (DateTimeOffset.UtcNow.ToUnixTimeSeconds() < antiSpam + 1800)
-                {
-                    Console.WriteLine("anti spam worked, recorded time is " + antiSpam + " and the time now is " + DateTimeOffset.UtcNow.ToUnixTimeSeconds());
-                    return;
-                }
-                Console.WriteLine("joined voice");
+                /*
+                                 Console.WriteLine("joined voice");
                 var embed = new EmbedBuilder();
                 embed.WithColor(Color.Blue);
                 embed.WithTitle("Voice Chat");
@@ -33,11 +28,18 @@ namespace _161Bot
                 await newState.VoiceChannel.Guild.GetTextChannel(BotConfig.GetCachedConfig().VcConfig.ChannelId).SendMessageAsync(embed: embed.Build(), text: (newState.VoiceChannel.Users.Count == 1 ? "@here" : ""));
                 // prevent spamming the bot
                 antiSpam = DateTimeOffset.UtcNow.ToUnixTimeSeconds(); // thanks stackoverflow
+                 */
+                Console.WriteLine(antiSpam - DateTimeOffset.UtcNow.ToUnixTimeSeconds() + 1800);
+                if (DateTimeOffset.UtcNow.ToUnixTimeSeconds() < antiSpam + 1800)
+                {
+                    Console.WriteLine("anti spam worked, recorded time is " + antiSpam + " and the time now is " + DateTimeOffset.UtcNow.ToUnixTimeSeconds());
+                    return;
+                }
 
             }
             if (old.VoiceChannel != null && newState.VoiceChannel == null)
             {
-                await old.VoiceChannel.Guild.GetUser(user.Id).RemoveRoleAsync(old.VoiceChannel.Guild.GetRole(BotConfig.GetCachedConfig().VcConfig.RoleId));
+                await old.VoiceChannel.Guild.GetUser(user.Id).RemoveRoleAsync(old.VoiceChannel.Guild.GetRole(BotConfig.GetCachedConfig().VcConfig.RoleId), new AuditLogReason("Automatically removing In VC role."));
             }
         }
 

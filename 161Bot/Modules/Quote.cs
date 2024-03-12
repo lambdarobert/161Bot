@@ -1,8 +1,10 @@
 ﻿using Discord;
 using Discord.Commands;
 using Discord.Rest;
+using Discord.WebSocket;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace _161Bot.Modules
@@ -11,40 +13,41 @@ namespace _161Bot.Modules
     {
 
         public static ulong? lastMessage = null;
-        public static long antiSpam = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+        private static readonly ulong guildId = 795714783801245706;
+        private static List<RestMessage> messages = new List<RestMessage>();
 
-        [Command("quote", RunMode = RunMode.Async)]
-        [Summary("Get a random quote from the server.")]
-        public async Task Run() => await Task.Run(RunAsync);
 
         // this command can take some time, so it's run here instead
-        private async Task RunAsync()
+
+        public static async Task GenerateQuotes(DiscordSocketClient client)
         {
-            if(DateTimeOffset.UtcNow.ToUnixTimeSeconds() < antiSpam + 8)
-            {
-                await ReplyAsync(embed: QuickEmbeds.Error("This command has been automatically rate limited to prevent problems until Robert gets off his lazy ass and fixes this command. The rate limit will end in eight seconds."));
-                return;
-            }
-            antiSpam = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
-            var dis = Context.Channel.EnterTypingState();
-            List<RestMessage> pins = new List<RestMessage>();
-            foreach (var channel in Context.Guild.TextChannels)
+            Console.WriteLine("updating quote cache");
+            var guild = client.GetGuild(guildId);
+            foreach(var channel in guild.TextChannels)
             {
                 foreach (var msg in await channel.GetPinnedMessagesAsync() as IReadOnlyList<RestMessage>)
                 {
-                    // this fixes the problem where the same quote will appear multiple times in the same command run. It's not a big deal, but it can be annoying.
-                    if (msg.Id != lastMessage)
+                    if(msg.Content != null && msg.Content != "")
                     {
-                        pins.Add(msg);
+                        messages.Add(msg);
                     }
                 }
             }
-            if (pins.Count == 0)
+        }
+
+        [Command("quote", RunMode = RunMode.Async)]
+        [Summary("Get a random quote from the server.")]
+        public async Task Run()
+        {
+            if(messages.Count == 0)
             {
-                await ReplyAsync("No quotes in this channel :(");
+                await ReplyAsync(embed: QuickEmbeds.Error("This command is not ready yet. Please try again later."));
                 return;
             }
-            var message = pins[new Random().Next(0, pins.Count - 1)];
+            Random r = new Random();
+
+            var message = messages[r.Next(messages.Count)];
+
             var theEmbed = new EmbedBuilder();
             theEmbed.WithAuthor(message.Author.Username + "#" + message.Author.Discriminator);
             theEmbed.WithAuthor(new EmbedAuthorBuilder().
@@ -61,7 +64,6 @@ namespace _161Bot.Modules
                 theEmbed.ThumbnailUrl = a.ProxyUrl;
             }
             lastMessage = message.Id;
-            dis.Dispose();
  
             await ReplyAsync(messageReference: new MessageReference(Context.Message.Id), embed: theEmbed.Build());
         }
