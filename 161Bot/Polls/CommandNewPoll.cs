@@ -9,12 +9,13 @@ namespace _161Bot.Polls
 {
     public class CommandNewPoll
     {
-        public async Task Run(SocketSlashCommand cmd, string title, string description, string optionData, bool showResults, IGuildChannel chan, int minOptions, int maxOptions)
+        public async Task Run(SocketSlashCommand cmd, string title, string description, string optionData, bool showResults, IGuildChannel chan, long minOptions, long maxOptions)
         {
             //begin sanity checking
             if(!(cmd.User as SocketGuildUser).GuildPermissions.Has(GuildPermission.Administrator))
             {
                 await cmd.RespondAsync(embed: QuickEmbeds.PermissionError());
+                return;
             }
             if(optionData.Split(",").Length == 0)
             {
@@ -38,8 +39,8 @@ namespace _161Bot.Polls
             p.Description = description;
             p.OptionData = new List<string>(optionData.Split(","));
             p.ShowResults = showResults;
-            p.MinOptions = minOptions;
-            p.MaxOptions = maxOptions;
+            p.MinOptions = Convert.ToInt32(minOptions);
+            p.MaxOptions = Convert.ToInt32(maxOptions);
             p.PollLocked = false;
             p.VotingData = new Dictionary<ulong, List<string>>();
         

@@ -63,7 +63,8 @@ namespace _161Bot.Polls
                 {
 
                     List<SocketSlashCommandDataOption> ops = new List<SocketSlashCommandDataOption>(cmd.Data.Options);
-                    await new CommandNewPoll().Run(cmd, (string)ops[0].Value, (string)ops[1].Value, (string)ops[2].Value, (bool)ops[3].Value, (IGuildChannel)ops[4].Value, (int)ops[5].Value, (int) ops[6].Value);
+                    Console.WriteLine(ops[5].Value.GetType().FullName);
+                    await new CommandNewPoll().Run(cmd, (string)ops[0].Value, (string)ops[1].Value, (string)ops[2].Value, (bool)ops[3].Value, (IGuildChannel)ops[4].Value, (System.Int64)ops[5].Value, (System.Int64) ops[6].Value);
                 }
             }
             else
