@@ -99,6 +99,7 @@ namespace _161Bot
             _client.InteractionCreated += HandleInteractions;
             _client.InteractionCreated += Quote.OnInteraction;
             _client.InteractionCreated += Paginator.OnInteract;
+            _client.InteractionCreated += new BingoButtons().HandleInteractions;
             _client.InteractionCreated += async (inter) =>
             {
                 try

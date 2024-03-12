@@ -100,13 +100,22 @@ namespace _161Bot.SlashCommands.Injection
                     builder.WithDefaultPermission(false);
                 }
                 Console.WriteLine("adding guild command " + builder.Name);
-                var slashCmd = await cli.Rest.CreateGuildCommand(builder.Build(), BotConfig.GetCachedConfig().ServerGuild);
-                if(perms.Count() == 1)
+                try
                 {
-                    var perm = perms.First() as ChaoPermissionsAttribute;
-                    Console.WriteLine("adding permissions");
-                    await slashCmd.ModifyCommandPermissions(perm.Perms.ToArray());
+                    var slashCmd = await cli.Rest.CreateGuildCommand(builder.Build(), BotConfig.GetCachedConfig().ServerGuild);
+                    if (perms.Count() == 1)
+                    {
+                        var perm = perms.First() as ChaoPermissionsAttribute;
+                        Console.WriteLine("adding permissions");
+                        await slashCmd.ModifyCommandPermissions(perm.Perms.ToArray());
+                    }
                 }
+                catch(Exception ex)
+                {
+                    Console.WriteLine(ex.ToString());
+                }
+                
+              
             }
         }
 
@@ -127,7 +136,14 @@ namespace _161Bot.SlashCommands.Injection
                 //finally, run the command
                 await Task.Run(() =>
                 {
-                    chaoCmd.GetType().GetMethod("Run").Invoke(chaoCmd, param.ToArray());
+                    try
+                    {
+                        chaoCmd.GetType().GetMethod("Run").Invoke(chaoCmd, param.ToArray());
+                    }
+                    catch(Exception ex)
+                    {
+                        Console.WriteLine(ex.ToString());
+                    }
                 });
                 
             }
