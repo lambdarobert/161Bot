@@ -78,7 +78,7 @@ namespace _161Bot
             await RegisterCommandsAsync();
             await _client.LoginAsync(TokenType.Bot, botToken);
             await _client.StartAsync();
-            await _client.SetGameAsync("::cmds for commands!");
+            await _client.SetGameAsync("with Winnie the Pooh");
             
             await Task.Run(async delegate
             {
@@ -105,6 +105,7 @@ namespace _161Bot
             _client.ChannelDestroyed += new VCChannelManager().OnVoiceChannelDestroyed;
             _client.ChannelUpdated += new VCChannelManager().OnChannelModified;
             _client.InteractionCreated += HandleInteractions;
+            _client.InteractionCreated += Quote.OnInteraction;
             _client.InteractionCreated += async (inter) =>
             {
                 try
@@ -120,21 +121,22 @@ namespace _161Bot
 
             _client.Ready += async delegate
             {
-                try
-                {
-                    await _slash_commands.Setup(_client);
-                }
-                catch(Exception ex)
-                {
-                    Console.WriteLine(ex.ToString());
-                    Console.WriteLine(ex.StackTrace);
-                }
-                await (_client.GetChannel(831964996287332352) as IMessageChannel).SendMessageAsync("Started.");
+                Console.WriteLine("running ready");
                 await Task.Run(async delegate
                 {
                     await Quote.GenerateQuotes(_client);
                 });
+                await (_client.GetChannel(831964996287332352) as IMessageChannel).SendMessageAsync("Started.");
                 await PollManager.Instance.Setup(_client);
+                try
+                {
+                    await _slash_commands.Setup(_client);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.ToString());
+                    Console.WriteLine(ex.StackTrace);
+                }
 
             };
 

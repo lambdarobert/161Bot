@@ -127,6 +127,7 @@ namespace _161Bot.Polls
             }
             var addCommand = new SlashCommandBuilder();
             addCommand.WithName("newpoll");
+
             addCommand.WithDescription("Create a new poll");
             addCommand.AddOption("title", ApplicationCommandOptionType.String, "Title of poll");
             addCommand.AddOption("description", ApplicationCommandOptionType.String, "Description of what poll is about");
@@ -136,7 +137,7 @@ namespace _161Bot.Polls
             addCommand.AddOption("min-options", ApplicationCommandOptionType.Integer, "Set != 1 to allow user to pick multiple options.");
             addCommand.AddOption("max-options", ApplicationCommandOptionType.Integer, "Set != 1 to allow user to pick multiple options.");
 
-            await client.Rest.CreateGuildCommand(addCommand.Build(), _guild);
+            var restcmd = await client.Rest.CreateGuildCommand(addCommand.Build(), _guild);
 
             client.InteractionCreated += OnInteraction;
         }

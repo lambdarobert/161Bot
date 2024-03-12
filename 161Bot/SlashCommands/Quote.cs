@@ -19,9 +19,8 @@ namespace _161Bot.SlashCommands
         public static ulong? lastMessage = null;
         private static readonly ulong guildId = 795714783801245706;
         private static List<RestMessage> messages;
+        private static readonly string interaction_id = "QUOTE_ROTATE";
 
-
-        // this command can take some time, so it's run here instead
 
         public static async Task GenerateQuotes(DiscordSocketClient client)
         {
@@ -40,13 +39,23 @@ namespace _161Bot.SlashCommands
             }
         }
 
-        public async Task Run(SocketSlashCommand cmd)
+        public static async Task OnInteraction(SocketInteraction inter)
         {
-            if(messages.Count == 0)
+            if(inter is SocketMessageComponent smc)
             {
-                await cmd.RespondAsync(embed: QuickEmbeds.Error("This command is not ready yet. Please try again later."), ephemeral: true);
-                return;
+                if (smc.Data.CustomId == interaction_id)
+                {
+
+                        await smc.UpdateAsync(m =>
+                        {
+                            m.Embed = CreateNewEmbed();
+                        });
+                }
             }
+        }
+
+        private static Embed CreateNewEmbed()
+        {
             Random r = new Random();
 
             var message = messages[r.Next(messages.Count)];
@@ -67,8 +76,21 @@ namespace _161Bot.SlashCommands
                 theEmbed.ThumbnailUrl = a.ProxyUrl;
             }
             lastMessage = message.Id;
- 
-            await cmd.RespondAsync(embed: theEmbed.Build());
+            return theEmbed.Build();
+        }
+
+        public async Task Run(SocketSlashCommand cmd)
+        {
+            if(messages == null || messages.Count == 0)
+            {
+                await cmd.RespondAsync(embed: QuickEmbeds.Error("This command is not ready yet. Please try again later."), ephemeral: true);
+                return;
+            }
+
+            var comp = new ComponentBuilder();
+            comp.WithButton("Rotate Quote", interaction_id, ButtonStyle.Primary, new Emoji("🔄"));
+
+            await cmd.RespondAsync(embed: CreateNewEmbed(), component: comp.Build());
         }
     }
 }
