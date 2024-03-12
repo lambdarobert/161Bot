@@ -11,6 +11,7 @@ namespace _161Bot.Modules
     {
 
         public static ulong? lastMessage = null;
+        public static long antiSpam = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
 
         [Command("quote", RunMode = RunMode.Async)]
         [Summary("Get a random quote from the server.")]
@@ -19,6 +20,12 @@ namespace _161Bot.Modules
         // this command can take some time, so it's run here instead
         private async Task RunAsync()
         {
+            if(DateTimeOffset.UtcNow.ToUnixTimeSeconds() < antiSpam + 8)
+            {
+                await ReplyAsync(embed: QuickEmbeds.Error("This command has been automatically rate limited to prevent problems until Robert gets off his lazy ass and fixes this command. The rate limit will end in eight seconds."));
+                return;
+            }
+            antiSpam = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
             var dis = Context.Channel.EnterTypingState();
             List<RestMessage> pins = new List<RestMessage>();
             foreach (var channel in Context.Guild.TextChannels)
@@ -55,6 +62,7 @@ namespace _161Bot.Modules
             }
             lastMessage = message.Id;
             dis.Dispose();
+ 
             await ReplyAsync(messageReference: new MessageReference(Context.Message.Id), embed: theEmbed.Build());
         }
     }
