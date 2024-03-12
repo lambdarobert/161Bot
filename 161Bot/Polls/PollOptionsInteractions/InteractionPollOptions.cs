@@ -47,7 +47,7 @@ namespace _161Bot.Polls
                     var ketamine = GenerateComps(poll);
                     await smc.RespondAsync(embed: new EmbedBuilder().
                         WithDescription("Options: \n Hide/show results: Toggle the visibility of the poll results \n View results (override): See the results of the poll (use this button if results are hidden, only you and other mods can see them) \n Lock/unlock Poll: Toggle if new votes can be added.")
-                        .WithTitle("Options").WithColor(Color.Blue).Build(), ephemeral: true, component: ketamine); 
+                        .WithTitle("Options").WithColor(Color.Blue).Build(), ephemeral: true, components: ketamine); 
                 }
                 else
                 {

@@ -90,7 +90,7 @@ namespace _161Bot.SlashCommands
             var comp = new ComponentBuilder();
             comp.WithButton("Rotate Quote", interaction_id, ButtonStyle.Primary, new Emoji("🔄"));
 
-            await cmd.RespondAsync(embed: CreateNewEmbed(), component: comp.Build());
+            await cmd.RespondAsync(embed: CreateNewEmbed(), components: comp.Build());
         }
     }
 }

@@ -48,7 +48,7 @@ namespace _161Bot.SlashCommands
                 }
             }
 
-            await cmd.Channel.SendMessageAsync(description, component: components.Build());
+            await cmd.Channel.SendMessageAsync(description, components: components.Build());
             await cmd.RespondAsync("Posted!", ephemeral: true);
         }
     }

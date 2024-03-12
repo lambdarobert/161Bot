@@ -41,7 +41,7 @@ namespace _161Bot
                 comps.WithButton("Next Page",  customId: btnForwardId + inter.Id, ButtonStyle.Primary);
             }
             var final_embed = payload.ToEmbedBuilder().WithDescription(data[0]).WithFooter("Page 1 of " + data.Length);
-            await inter.RespondAsync(embed: final_embed.Build(), ephemeral: ephemeralResponse, component: comps.Build());
+            await inter.RespondAsync(embed: final_embed.Build(), ephemeral: ephemeralResponse, components: comps.Build());
             paginationData.Add(inter.Id, new PaginationData
             {
                 CurrentPage = 0,

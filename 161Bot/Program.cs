@@ -75,7 +75,7 @@ namespace _161Bot
             await RegisterCommandsAsync();
             await _client.LoginAsync(TokenType.Bot, botToken);
             await _client.StartAsync();
-            await _client.SetGameAsync("with Winnie the Pooh");
+            await _client.SetGameAsync("Слава Україні!");
             
             await Task.Delay(-1);
 
@@ -93,6 +93,8 @@ namespace _161Bot
 
             _client.MessageReceived += HandleCommandsAysnc;
             _client.MessageReceived += new StatsDataUpdater().Handle;
+
+            _client.ModalSubmitted += new ModalHandler().Handle;
             _client.UserVoiceStateUpdated += new VCHandler().HandleVC;
             _client.UserVoiceStateUpdated += new VCChannelManager().OnChannelJoinLeave;
             _client.ChannelDestroyed += new VCChannelManager().OnVoiceChannelDestroyed;

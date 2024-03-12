@@ -59,7 +59,7 @@ namespace _161Bot.Polls
 
                 try
                 {
-                    var msg = await gchan.SendMessageAsync(embed: PollManager.Instance.GenerateEmbed(p), component: comp.Build());
+                    var msg = await gchan.SendMessageAsync(embed: PollManager.Instance.GenerateEmbed(p), components: comp.Build());
                     p.MessageId = msg.Id;
                 }
                 catch(Exception ex)

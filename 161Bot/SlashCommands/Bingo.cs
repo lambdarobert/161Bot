@@ -122,7 +122,7 @@ namespace _161Bot.SlashCommands
 
             try
             {
-                await cmd.Channel.SendMessageAsync("**BINGO:** " + title + " by " + cmd.User.Mention, component: comps.Build());
+                await cmd.Channel.SendMessageAsync("**BINGO:** " + title + " by " + cmd.User.Mention, components: comps.Build());
             }
             catch(Exception ex)
             {

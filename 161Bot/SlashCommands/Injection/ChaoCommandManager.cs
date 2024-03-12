@@ -74,7 +74,7 @@ namespace _161Bot.SlashCommands.Injection
                         var optionBuilder = new SlashCommandOptionBuilder();
                         optionBuilder.WithType(TranslateType(param.ParameterType));
                         var optionAttribute = param.GetCustomAttributes().Where(a => a is ChaoParameterAttribute).First() as ChaoParameterAttribute;
-                        optionBuilder.Required = optionAttribute.Required;
+                        optionBuilder.IsRequired = optionAttribute.Required;
                         optionBuilder.WithName(optionAttribute.Name);
                         optionBuilder.WithDescription(optionAttribute.Description);
                         if(param.GetCustomAttributes().Where(a => a is ChaoMultipleChoiceAttribute).Count() == 1)
