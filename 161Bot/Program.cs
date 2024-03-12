@@ -94,6 +94,10 @@ namespace _161Bot
             {
                 await message.AddReactionAsync(new Emoji("🙏"));
             }
+            if(message.ToString().ToLower().Contains("kishore"))
+            {
+                await message.AddReactionAsync(Emote.Parse("<:747:805867124593393675>"));
+            }
 
         }
     }
