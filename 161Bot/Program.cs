@@ -85,6 +85,7 @@ namespace _161Bot
         {
             _client.MessageReceived += HandleCommandsAysnc;
             _client.UserVoiceStateUpdated += new VCHandler().HandleVC;
+
             await _commands.AddModulesAsync(Assembly.GetEntryAssembly(), _services);
         }
 
@@ -120,6 +121,7 @@ namespace _161Bot
             {
                 await message.AddReactionAsync(Emote.Parse("<:747:805867124593393675>"));
             }
+            await new BotSpeakHandler().HandleMessage(arg);
 
         }
     }
